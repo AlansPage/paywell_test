@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>PayWell — Unlock Full Access</title>
+  <style>
+    /* ========== CSS Custom Properties ========== */
+    :root {
+      --color-primary: #FF6B2C;
+      --color-primary-light: #FF8F5E;
+      --color-navy: #1B2E4A;
+      --color-accent-yellow: #FFD93D;
+      --color-success: #4CAF50;
+      --color-bg: #FFF8F0;
+      --color-card: #FFFFFF;
+      --color-text-secondary: #6B7B8D;
+      --color-text-muted: #8E99A4;
+      --color-text-muted-light: #A0AAB4;
+      --color-border: #E8ECF0;
+      --color-pill-bg: #F0F7FF;
+      --font-stack: -apple-system, BlinkMacSystemFont, 'SF Pro Rounded', 'Nunito', system-ui, sans-serif;
+      --radius-card: 16px;
+      --radius-button: 14px;
+      --radius-pill: 12px;
+      --radius-badge: 8px;
+      --shadow-card: 0 2px 8px rgba(0,0,0,0.06);
+      --shadow-card-active: 0 4px 16px rgba(255,107,44,0.15);
+      --shadow-cta: 0 4px 16px rgba(255,107,44,0.35);
+      --shadow-bubble: 0 4px 12px rgba(0,0,0,0.08);
+      --shadow-modal: 0 -4px 24px rgba(0,0,0,0.12);
+    }
+
+    /* ========== Reset & Base ========== */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      height: 100%;
+      font-family: var(--font-stack);
+      background: var(--color-navy);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    /* ========== Phone Container ========== */
+    .phone-container {
+      max-width: 390px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: var(--color-bg);
+      position: relative;
+      overflow-x: hidden;
+      overflow-y: auto;
+      padding-bottom: 34px; /* safe area */
+    }
+
+    /* ========== Status Bar ========== */
+    .status-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 14px 20px 8px;
+      position: sticky;
+      top: 0;
+      background: var(--color-bg);
+      z-index: 10;
+    }
+
+    .status-bar-time {
+      font-size: 15px;
+      font-weight: 600;
+      color: var(--color-navy);
+      letter-spacing: -0.02em;
+    }
+
+    .status-bar-icons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* ========== Close Button ========== */
+    .close-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      border: none;
+      background: rgba(0,0,0,0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 20;
+      transition: background 0.2s;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .close-btn:hover {
+      background: rgba(0,0,0,0.1);
+    }
+
+    .close-btn:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    .close-btn svg {
+      width: 18px;
+      height: 18px;
+      color: var(--color-text-secondary);
+    }
+
+    /* ========== Content Area ========== */
+    .content {
+      padding: 0 20px;
+    }
+
+    /* ========== Mascot Section ========== */
+    .mascot-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 8px;
+      margin-bottom: 24px;
+    }
+
+    .fox-wrapper {
+      animation: foxBounce 2s ease-in-out infinite;
+    }
+
+    @keyframes foxBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-6px); }
+    }
+
+    .speech-bubble {
+      background: var(--color-card);
+      border-radius: 16px;
+      padding: 14px 18px;
+      box-shadow: var(--shadow-bubble);
+      margin-top: 12px;
+      position: relative;
+      text-align: center;
+      font-size: 15px;
+      line-height: 1.5;
+      color: var(--color-navy);
+      font-weight: 500;
+      animation: bubblePopIn 0.3s ease-out 0.2s both;
+      max-width: 300px;
+    }
+
+    .speech-bubble::before {
+      content: '';
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 0;
+      height: 0;
+      border-left: 8px solid transparent;
+      border-right: 8px solid transparent;
+      border-bottom: 8px solid var(--color-card);
+    }
+
+    @keyframes bubblePopIn {
+      0% { transform: scale(0); opacity: 0; }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    /* ========== Value Proposition ========== */
+    .value-prop {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .value-prop h1 {
+      font-size: 22px;
+      font-weight: 700;
+      color: var(--color-navy);
+      line-height: 1.3;
+      letter-spacing: -0.02em;
+    }
+
+    .value-prop .subtitle {
+      font-size: 14px;
+      color: var(--color-text-secondary);
+      line-height: 1.5;
+      margin-top: 6px;
+    }
+
+    /* ========== Benefit Pills ========== */
+    .benefits {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 24px;
+    }
+
+    .benefit-pill {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      background: var(--color-pill-bg);
+      border-radius: var(--radius-pill);
+      padding: 12px 16px;
+    }
+
+    .benefit-pill svg {
+      flex-shrink: 0;
+      width: 24px;
+      height: 24px;
+    }
+
+    .benefit-pill span {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-navy);
+      line-height: 1.4;
+    }
+
+    /* ========== Pricing Cards ========== */
+    .pricing-cards {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .pricing-card {
+      flex: 1;
+      border: 2px solid var(--color-border);
+      border-radius: var(--radius-card);
+      padding: 20px;
+      background: var(--color-card);
+      box-shadow: var(--shadow-card);
+      cursor: pointer;
+      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .pricing-card:focus-visible {
+      outline: 2px solid var(--color-primary);
+      outline-offset: 2px;
+    }
+
+    .pricing-card.active {
+      border-color: var(--color-primary);
+      transform: scale(1.02);
+      box-shadow: var(--shadow-card-active);
+    }
+
+    .pricing-card .plan-label {
+      font-size: 11px;
+      letter-spacing: 1.2px;
+      color: var(--color-text-secondary);
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .pricing-card .price {
+      font-size: 28px;
+      font-weight: 800;
+      color: var(--color-navy);
+      line-height: 1.2;
+    }
+
+    .pricing-card .period {
+      font-size: 14px;
+      color: var(--color-text-secondary);
+      font-weight: 400;
+    }
+
+    .pricing-card .card-subtext {
+      font-size: 12px;
+      color: var(--color-text-muted);
+      margin-top: 6px;
+    }
+
+    .pricing-card .card-subtext.savings {
+      color: var(--color-success);
+      font-weight: 600;
+    }
+
+    .pricing-card .strikethrough {
+      font-size: 13px;
+      color: var(--color-text-muted);
+      text-decoration: line-through;
+      margin-top: 4px;
+    }
+
+    /* Best Value Badge */
+    .best-value-badge {
+      position: absolute;
+      top: -10px;
+      right: -6px;
+      background: var(--color-accent-yellow);
+      color: var(--color-navy);
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-badge);
+      transform: rotate(-3deg);
+      animation: badgePulse 1.5s ease-in-out infinite;
+      white-space: nowrap;
+    }
+
+    @keyframes badgePulse {
+      0%, 100% { transform: rotate(-3deg) scale(1); }
+      50% { transform: rotate(-3deg) scale(1.05); }
+    }
+
+    /* ========== CTA Button ========== */
+    .cta-btn {
+      width: 100%;
+      height: 56px;
+      border-radius: var(--radius-button);
+      border: none;
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: var(--font-stack);
+      cursor: pointer;
+      box-shadow: var(--shadow-cta);
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      margin-bottom: 20px;
+      -webkit-tap-highlight-color: transparent;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .cta-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(255,107,44,0.45);
+    }
+
+    .cta-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 2px 8px rgba(255,107,44,0.25);
+    }
+
+    .cta-btn:focus-visible {
+      outline: 2px solid var(--color-navy);
+      outline-offset: 2px;
+    }
+
+    .cta-btn:disabled {
+      cursor: not-allowed;
+      opacity: 0.8;
+    }
+
+    /* ========== Trust Footer ========== */
+    .trust-footer {
+      text-align: center;
+      padding-bottom: 10px;
+    }
+
+    .trust-footer .trust-line {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      margin-bottom: 6px;
+    }
+
+    .trust-footer .trust-line svg {
+      width: 14px;
+      height: 14px;
+      flex-shrink: 0;
+    }
+
+    .trust-footer .trust-line span {
+      font-size: 12px;
+      color: var(--color-text-muted);
+    }
+
+    .trust-footer .trust-line:last-child span {
+      font-size: 11px;
+      color: var(--color-text-muted-light);
+    }
+
+    /* ========== Bottom Sheet Overlay ========== */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 100;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .overlay.visible {
+      display: flex;
+    }
+
+    .overlay-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(0,0,0,0.4);
+      animation: fadeIn 0.2s ease;
+    }
+
+    .bottom-sheet {
+      position: relative;
+      background: var(--color-card);
+      border-radius: 20px 20px 0 0;
+      padding: 28px 24px 40px;
+      max-width: 390px;
+      width: 100%;
+      box-shadow: var(--shadow-modal);
+      animation: slideUp 0.3s ease-out;
+      text-align: center;
+    }
+
+    .bottom-sheet .sheet-handle {
+      width: 36px;
+      height: 4px;
+      background: var(--color-border);
+      border-radius: 2px;
+      margin: 0 auto 20px;
+    }
+
+    .bottom-sheet p {
+      font-size: 16px;
+      color: var(--color-navy);
+      line-height: 1.5;
+      margin-bottom: 24px;
+      font-weight: 500;
+    }
+
+    .sheet-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .sheet-btn-primary {
+      height: 50px;
+      border-radius: var(--radius-button);
+      border: none;
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: var(--font-stack);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .sheet-btn-secondary {
+      height: 50px;
+      border-radius: var(--radius-button);
+      border: 2px solid var(--color-border);
+      background: transparent;
+      color: var(--color-text-secondary);
+      font-size: 16px;
+      font-weight: 600;
+      font-family: var(--font-stack);
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    /* ========== Success Overlay ========== */
+    .success-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(255,255,255,0.97);
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+    }
+
+    .success-overlay.visible {
+      display: flex;
+    }
+
+    .success-checkmark {
+      width: 80px;
+      height: 80px;
+    }
+
+    .success-checkmark circle {
+      fill: none;
+      stroke: var(--color-success);
+      stroke-width: 3;
+      stroke-dasharray: 220;
+      stroke-dashoffset: 220;
+      animation: circleIn 0.5s ease-out 0.1s forwards;
+    }
+
+    .success-checkmark path {
+      fill: none;
+      stroke: var(--color-success);
+      stroke-width: 3;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      stroke-dasharray: 40;
+      stroke-dashoffset: 40;
+      animation: checkIn 0.4s ease-out 0.5s forwards;
+    }
+
+    @keyframes circleIn {
+      to { stroke-dashoffset: 0; }
+    }
+
+    @keyframes checkIn {
+      to { stroke-dashoffset: 0; }
+    }
+
+    .success-overlay h2 {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--color-navy);
+      letter-spacing: -0.02em;
+    }
+
+    .success-overlay .success-sub {
+      font-size: 14px;
+      color: var(--color-text-secondary);
+      text-align: center;
+      max-width: 280px;
+      line-height: 1.5;
+    }
+
+    .start-learning-btn {
+      margin-top: 16px;
+      height: 52px;
+      padding: 0 40px;
+      border-radius: var(--radius-button);
+      border: none;
+      background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-light) 100%);
+      color: white;
+      font-size: 16px;
+      font-weight: 700;
+      font-family: var(--font-stack);
+      cursor: pointer;
+      box-shadow: var(--shadow-cta);
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    /* ========== Confetti ========== */
+    .confetti-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 201;
+      overflow: hidden;
+      display: none;
+    }
+
+    .confetti-container.visible {
+      display: block;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      top: -10px;
+      opacity: 0;
+      animation: confettiFall 2.5s ease-out forwards;
+    }
+
+    @keyframes confettiFall {
+      0% { opacity: 1; transform: translateY(0) rotate(0deg); }
+      100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="phone-container">
+    <!-- Status Bar -->
+    <div class="status-bar">
+      <span class="status-bar-time">9:41</span>
+      <div class="status-bar-icons">
+        <!-- Cellular -->
+        <svg width="17" height="12" viewBox="0 0 17 12" fill="none" aria-hidden="true">
+          <rect x="0" y="9" width="3" height="3" rx="0.5" fill="#1B2E4A"/>
+          <rect x="4.5" y="6" width="3" height="6" rx="0.5" fill="#1B2E4A"/>
+          <rect x="9" y="3" width="3" height="9" rx="0.5" fill="#1B2E4A"/>
+          <rect x="13.5" y="0" width="3" height="12" rx="0.5" fill="#1B2E4A"/>
+        </svg>
+        <!-- WiFi -->
+        <svg width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden="true">
+          <path d="M8 10.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3z" fill="#1B2E4A" transform="translate(0,-2)"/>
+          <path d="M5.3 9.1a3.8 3.8 0 0 1 5.4 0" stroke="#1B2E4A" stroke-width="1.4" stroke-linecap="round" fill="none" transform="translate(0,-2)"/>
+          <path d="M2.8 6.6a7.2 7.2 0 0 1 10.4 0" stroke="#1B2E4A" stroke-width="1.4" stroke-linecap="round" fill="none" transform="translate(0,-2)"/>
+          <path d="M0.5 4.1a10.5 10.5 0 0 1 15 0" stroke="#1B2E4A" stroke-width="1.4" stroke-linecap="round" fill="none" transform="translate(0,-2)"/>
+        </svg>
+        <!-- Battery -->
+        <svg width="27" height="12" viewBox="0 0 27 12" fill="none" aria-hidden="true">
+          <rect x="0.5" y="0.5" width="23" height="11" rx="2.5" stroke="#1B2E4A" stroke-opacity="0.35" fill="none"/>
+          <rect x="25" y="3.5" width="1.5" height="5" rx="0.75" fill="#1B2E4A" fill-opacity="0.4"/>
+          <rect x="2" y="2" width="20" height="8" rx="1.5" fill="#1B2E4A"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Close Button -->
+    <button class="close-btn" aria-label="Close paywall" id="closeBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" aria-hidden="true">
+        <line x1="18" y1="6" x2="6" y2="18"/>
+        <line x1="6" y1="6" x2="18" y2="18"/>
+      </svg>
+    </button>
+
+    <div class="content">
+      <!-- Mascot Section -->
+      <section class="mascot-section" aria-label="Mascot greeting">
+        <div class="fox-wrapper">
+          <!-- Fox SVG -->
+          <svg width="120" height="120" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+            <!-- Tail -->
+            <ellipse cx="92" cy="85" rx="20" ry="12" transform="rotate(-25 92 85)" fill="#E8722A"/>
+            <ellipse cx="104" cy="78" rx="10" ry="7" transform="rotate(-25 104 78)" fill="white"/>
+            <!-- Body -->
+            <ellipse cx="60" cy="82" rx="28" ry="26" fill="#E8722A"/>
+            <!-- Belly -->
+            <ellipse cx="60" cy="88" rx="18" ry="16" fill="#F5A623"/>
+            <!-- Head -->
+            <circle cx="60" cy="48" r="24" fill="#E8722A"/>
+            <!-- Left Ear -->
+            <polygon points="40,30 32,8 50,25" fill="#E8722A"/>
+            <polygon points="42,28 36,14 48,26" fill="#FFB8A0"/>
+            <!-- Right Ear -->
+            <polygon points="80,30 88,8 70,25" fill="#E8722A"/>
+            <polygon points="78,28 84,14 72,26" fill="#FFB8A0"/>
+            <!-- Muzzle -->
+            <ellipse cx="60" cy="55" rx="14" ry="10" fill="white"/>
+            <!-- Nose -->
+            <ellipse cx="60" cy="50" rx="4" ry="3" fill="#2D2D2D"/>
+            <!-- Mouth -->
+            <path d="M56 54 Q60 58 64 54" stroke="#2D2D2D" stroke-width="1.5" fill="none" stroke-linecap="round"/>
+            <!-- Left Eye -->
+            <circle cx="49" cy="43" r="5" fill="white"/>
+            <circle cx="50" cy="43" r="3.5" fill="#4CAF50"/>
+            <circle cx="51" cy="41.5" r="1.2" fill="white"/>
+            <!-- Right Eye -->
+            <circle cx="71" cy="43" r="5" fill="white"/>
+            <circle cx="72" cy="43" r="3.5" fill="#4CAF50"/>
+            <circle cx="73" cy="41.5" r="1.2" fill="white"/>
+            <!-- Whiskers -->
+            <line x1="36" y1="50" x2="47" y2="52" stroke="#D4D4D4" stroke-width="1" stroke-linecap="round"/>
+            <line x1="34" y1="54" x2="47" y2="54" stroke="#D4D4D4" stroke-width="1" stroke-linecap="round"/>
+            <line x1="73" y1="52" x2="84" y2="50" stroke="#D4D4D4" stroke-width="1" stroke-linecap="round"/>
+            <line x1="73" y1="54" x2="86" y2="54" stroke="#D4D4D4" stroke-width="1" stroke-linecap="round"/>
+            <!-- Graduation Cap -->
+            <polygon points="42,28 60,18 78,28 60,24" fill="#1B2E4A"/>
+            <rect x="56" y="18" width="8" height="3" rx="1" fill="#1B2E4A" transform="rotate(-5 60 19)"/>
+            <polygon points="38,30 60,20 82,30 60,26" fill="#1B2E4A"/>
+            <line x1="78" y1="28" x2="82" y2="36" stroke="#1B2E4A" stroke-width="1.5"/>
+            <circle cx="82" cy="37" r="2" fill="#FFD93D"/>
+            <!-- Waving Paw (left) -->
+            <ellipse cx="30" cy="72" rx="8" ry="6" fill="#E8722A" transform="rotate(-30 30 72)"/>
+            <ellipse cx="25" cy="65" rx="5" ry="4" fill="#F5A623" transform="rotate(-30 25 65)"/>
+          </svg>
+        </div>
+        <!-- Speech Bubble -->
+        <div class="speech-bubble">
+          Great job on your first lesson! 🎉 Ready for more?
+        </div>
+      </section>
+
+      <!-- Value Proposition -->
+      <section class="value-prop" aria-label="Course benefits">
+        <h1>Unlock the Full Financial Literacy Course</h1>
+        <p class="subtitle">Give your child the money skills school doesn't teach</p>
+      </section>
+
+      <!-- Benefit Pills -->
+      <div class="benefits" role="list">
+        <div class="benefit-pill" role="listitem">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="3" y="14" width="4" height="7" rx="1" fill="#FF6B2C"/>
+            <rect x="10" y="10" width="4" height="11" rx="1" fill="#FF6B2C"/>
+            <rect x="17" y="5" width="4" height="16" rx="1" fill="#FF6B2C"/>
+          </svg>
+          <span>50+ interactive lessons on saving, budgeting & investing</span>
+        </div>
+        <div class="benefit-pill" role="listitem">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="4" y="6" width="16" height="12" rx="3" stroke="#FF6B2C" stroke-width="2" fill="none"/>
+            <circle cx="9" cy="14" r="2" fill="#FF6B2C"/>
+            <circle cx="15" cy="14" r="2" fill="#FF6B2C"/>
+            <line x1="6" y1="10" x2="10" y2="10" stroke="#FF6B2C" stroke-width="2" stroke-linecap="round"/>
+            <line x1="14" y1="10" x2="18" y2="10" stroke="#FF6B2C" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          <span>Real-world money scenarios & challenges</span>
+        </div>
+        <div class="benefit-pill" role="listitem">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <circle cx="12" cy="7" r="3.5" stroke="#FF6B2C" stroke-width="2" fill="none"/>
+            <circle cx="5" cy="10" r="2.5" stroke="#FF6B2C" stroke-width="1.5" fill="none"/>
+            <circle cx="19" cy="10" r="2.5" stroke="#FF6B2C" stroke-width="1.5" fill="none"/>
+            <path d="M7 20c0-3 2.2-5 5-5s5 2 5 5" stroke="#FF6B2C" stroke-width="2" stroke-linecap="round" fill="none"/>
+            <path d="M1 20c0-2 1.3-3.5 3.5-3.8" stroke="#FF6B2C" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+            <path d="M23 20c0-2-1.3-3.5-3.5-3.8" stroke="#FF6B2C" stroke-width="1.5" stroke-linecap="round" fill="none"/>
+          </svg>
+          <span>Parent dashboard to track your child's progress</span>
+        </div>
+      </div>
+
+      <!-- Pricing Cards -->
+      <div class="pricing-cards" role="radiogroup" aria-label="Select a plan">
+        <!-- Monthly Card -->
+        <div class="pricing-card" role="radio" aria-checked="false" tabindex="0" data-plan="monthly" id="cardMonthly">
+          <div class="plan-label">Monthly</div>
+          <div class="price">15,000 ₸<span class="period">/month</span></div>
+          <div class="card-subtext">Cancel anytime</div>
+        </div>
+        <!-- Lifetime Card -->
+        <div class="pricing-card active" role="radio" aria-checked="true" tabindex="0" data-plan="lifetime" id="cardLifetime">
+          <div class="best-value-badge">BEST VALUE</div>
+          <div class="plan-label">Lifetime</div>
+          <div class="strikethrough">180,000 ₸</div>
+          <div class="price">150,000 ₸<span class="period">/one-time</span></div>
+          <div class="card-subtext savings">Save 30,000 ₸ compared to 12 months</div>
+        </div>
+      </div>
+
+      <!-- CTA Button -->
+      <button class="cta-btn" id="ctaBtn" aria-label="Purchase selected plan">
+        <span id="ctaText">Get Full Access for 150,000 ₸</span>
+      </button>
+
+      <!-- Trust Footer -->
+      <footer class="trust-footer" aria-label="Trust signals">
+        <div class="trust-line">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="5" y="10" width="14" height="11" rx="2" stroke="#8E99A4" stroke-width="1.8" fill="none"/>
+            <path d="M8 10V7a4 4 0 0 1 8 0v3" stroke="#8E99A4" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+            <circle cx="12" cy="15.5" r="1.5" fill="#8E99A4"/>
+          </svg>
+          <span>Secure payment</span>
+        </div>
+        <div class="trust-line">
+          <span>7-day money-back guarantee</span>
+        </div>
+        <div class="trust-line">
+          <span>Trusted by 10,000+ Kazakh families</span>
+        </div>
+      </footer>
+    </div>
+  </div>
+
+  <!-- Close Bottom Sheet Overlay -->
+  <div class="overlay" id="closeOverlay" aria-modal="true" role="dialog" aria-label="Confirm close">
+    <div class="overlay-backdrop" id="overlayBackdrop"></div>
+    <div class="bottom-sheet">
+      <div class="sheet-handle"></div>
+      <p>Are you sure? You'll miss out on 50+ lessons on saving, investing, and smart spending.</p>
+      <div class="sheet-buttons">
+        <button class="sheet-btn-primary" id="keepExploringBtn">Keep exploring</button>
+        <button class="sheet-btn-secondary" id="maybeLaterBtn">Maybe later</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success Overlay -->
+  <div class="success-overlay" id="successOverlay" aria-label="Purchase successful">
+    <svg class="success-checkmark" viewBox="0 0 80 80" aria-hidden="true">
+      <circle cx="40" cy="40" r="36"/>
+      <path d="M24 40 L35 51 L56 30"/>
+    </svg>
+    <h2>Welcome aboard! 🚀</h2>
+    <p class="success-sub">Your child now has full access to all lessons</p>
+    <button class="start-learning-btn" id="startLearningBtn">Start Learning</button>
+  </div>
+
+  <!-- Confetti Container -->
+  <div class="confetti-container" id="confettiContainer" aria-hidden="true"></div>
+
+  <script>
+    /* ========== DOM References ========== */
+    const closeBtn = document.getElementById('closeBtn');
+    const closeOverlay = document.getElementById('closeOverlay');
+    const overlayBackdrop = document.getElementById('overlayBackdrop');
+    const keepExploringBtn = document.getElementById('keepExploringBtn');
+    const maybeLaterBtn = document.getElementById('maybeLaterBtn');
+    const cardMonthly = document.getElementById('cardMonthly');
+    const cardLifetime = document.getElementById('cardLifetime');
+    const ctaBtn = document.getElementById('ctaBtn');
+    const ctaText = document.getElementById('ctaText');
+    const successOverlay = document.getElementById('successOverlay');
+    const startLearningBtn = document.getElementById('startLearningBtn');
+    const confettiContainer = document.getElementById('confettiContainer');
+
+    let selectedPlan = 'lifetime';
+
+    /* ========== Plan Selection ========== */
+    function selectPlan(plan) {
+      selectedPlan = plan;
+      if (plan === 'monthly') {
+        cardMonthly.classList.add('active');
+        cardMonthly.setAttribute('aria-checked', 'true');
+        cardLifetime.classList.remove('active');
+        cardLifetime.setAttribute('aria-checked', 'false');
+        ctaText.textContent = 'Subscribe for 15,000 ₸/mo';
+      } else {
+        cardLifetime.classList.add('active');
+        cardLifetime.setAttribute('aria-checked', 'true');
+        cardMonthly.classList.remove('active');
+        cardMonthly.setAttribute('aria-checked', 'false');
+        ctaText.textContent = 'Get Full Access for 150,000 ₸';
+      }
+    }
+
+    cardMonthly.addEventListener('click', () => selectPlan('monthly'));
+    cardLifetime.addEventListener('click', () => selectPlan('lifetime'));
+
+    cardMonthly.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectPlan('monthly'); }
+    });
+    cardLifetime.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); selectPlan('lifetime'); }
+    });
+
+    /* ========== Close Button & Bottom Sheet ========== */
+    function showCloseSheet() {
+      closeOverlay.classList.add('visible');
+    }
+
+    function hideCloseSheet() {
+      closeOverlay.classList.remove('visible');
+    }
+
+    closeBtn.addEventListener('click', showCloseSheet);
+    overlayBackdrop.addEventListener('click', hideCloseSheet);
+    keepExploringBtn.addEventListener('click', hideCloseSheet);
+    maybeLaterBtn.addEventListener('click', () => {
+      hideCloseSheet();
+      /* In a real app, this would dismiss the paywall */
+    });
+
+    /* ========== CTA / Purchase Flow ========== */
+    function createConfetti() {
+      confettiContainer.innerHTML = '';
+      const colors = ['#FF6B2C', '#FFD93D', '#4CAF50', '#1B2E4A', '#FF8F5E', '#F5A623', '#F0F7FF', '#E8722A'];
+      for (let i = 0; i < 30; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        const isCircle = Math.random() > 0.5;
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const size = 6 + Math.random() * 10;
+        piece.style.width = size + 'px';
+        piece.style.height = size + 'px';
+        piece.style.background = color;
+        piece.style.borderRadius = isCircle ? '50%' : '2px';
+        piece.style.left = Math.random() * 100 + '%';
+        piece.style.animationDelay = (Math.random() * 1.2) + 's';
+        piece.style.animationDuration = (1.8 + Math.random() * 1.5) + 's';
+        confettiContainer.appendChild(piece);
+      }
+      confettiContainer.classList.add('visible');
+    }
+
+    ctaBtn.addEventListener('click', () => {
+      if (ctaBtn.disabled) return;
+      ctaBtn.disabled = true;
+      ctaText.innerHTML = '&#10003; Processing...';
+
+      setTimeout(() => {
+        successOverlay.classList.add('visible');
+        createConfetti();
+      }, 1500);
+    });
+
+    startLearningBtn.addEventListener('click', () => {
+      successOverlay.classList.remove('visible');
+      confettiContainer.classList.remove('visible');
+      ctaBtn.disabled = false;
+      ctaText.textContent = selectedPlan === 'monthly'
+        ? 'Subscribe for 15,000 ₸/mo'
+        : 'Get Full Access for 150,000 ₸';
+    });
+  </script>
+</body>
+</html>
